@@ -12,7 +12,7 @@ import android.view.View;
  * it will throw an {@link IllegalStateException} at run time.
  *
  * @auther kumagai
- * @since 15/07/08
+ * @since 1.0
  */
 public interface ClippingAnimator {
 
@@ -59,7 +59,7 @@ public interface ClippingAnimator {
      *
      * @param interpolator The TimeInterpolator to be used for animation
      */
-    ClippingAnimator interpolator(TimeInterpolator interpolator);
+    ClippingAnimator interpolator(@Nullable TimeInterpolator interpolator);
 
     /**
      * Start the animation circle spreads.

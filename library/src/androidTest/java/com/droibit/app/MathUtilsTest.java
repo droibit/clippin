@@ -1,10 +1,15 @@
 package com.droibit.app;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.test.AndroidTestCase;
+import android.test.InstrumentationTestCase;
 import android.view.View;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -17,25 +22,52 @@ import static org.junit.Assert.*;
  * Unit test of {@link MathUtils} class.
  *
  * @author kumagai
- * @since 2015/07/10.
+ * @since 1.0
  */
 @RunWith(AndroidJUnit4.class)
-public class MathUtilsTest {
+public class MathUtilsTest extends InstrumentationTestCase {
+
+    private Context mContext;
+
+    @Before
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+
+        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
+        mContext = getInstrumentation().getContext();
+    }
 
     // Calc view center
-    @Test
+    @Test(expected = IllegalArgumentException.class)
     public void testCalculateCenterCoord() {
+        // Origin
+        final View view1 = makeView(mContext, 0, 0, 100, 200);
+        final Point origin = MathUtils.calculateCenterCoord(view1, Clippin.CENTER_ORIGIN);
+        assertThat(origin, is(new Point(50, 100)));
 
+        // Left top
+        final View view2 = makeView(mContext, 0, 0, 200, 100);
+        final Point leftTop = MathUtils.calculateCenterCoord(view2, Clippin.CENTER_LEFT_TOP);
+        assertThat(leftTop, is(new Point(0, 0)));
+
+        // Left top
+        final View view3 = makeView(mContext, 0, 0, 200, 100);
+        final Point rightBottom = MathUtils.calculateCenterCoord(view3, Clippin.CENTER_RIGHT_BOTTOM);
+        assertThat(rightBottom, is(new Point(200, 100)));
+
+        // Force Error!!
+        MathUtils.calculateCenterCoord(view3, Clippin.CENTER_NONE);
     }
 
     // Calc view radius
     @Test
     public void testCalculateViewRadius() throws Exception {
-        final View longHeightView = makeView(0, 0, 100, 200);
+        final View longHeightView = makeView(mContext, 0, 0, 100, 200);
         final int hRadius = MathUtils.calculateViewRadius(longHeightView);
         assertThat(hRadius, is(200));
 
-        final View longWidthView = makeView(0, 0, 300, 100);
+        final View longWidthView = makeView(mContext, 0, 0, 300, 100);
         final int wRadius = MathUtils.calculateViewRadius(longWidthView);
         assertThat(wRadius, is(300));
     }
@@ -51,9 +83,9 @@ public class MathUtilsTest {
     // Calc origin bottom
     @Test
     public void testCalculateOriginBottom() {
-        final View view = makeView(0, 0, 100, 100);
-        final Point point = MathUtils.calculateOriginBottom(makeViewRect(view));
-        assertThat(point, is(new Point(0, 100)));
+        final Rect viewRect = new Rect(0, 0, 100, 100);
+        final Point point = MathUtils.calculateOriginBottom(viewRect);
+        assertThat(point, is(new Point(50, 100)));
     }
 
     // Calc left top
@@ -84,7 +116,7 @@ public class MathUtilsTest {
     @Test
     public void testCalculateRightBottom() {
         final Rect viewRect = new Rect(0, 0, 100, 100);
-        final Point point = MathUtils.calculateLeftTop(viewRect);
+        final Point point = MathUtils.calculateRightBottom(viewRect);
         assertThat(point, is(new Point(100, 100)));
     }
 }

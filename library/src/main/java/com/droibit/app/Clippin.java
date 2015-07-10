@@ -26,7 +26,7 @@ import static com.droibit.app.MathUtils.calculateViewRadius;
  *
  *
  * @auther kumagai
- * @since 15/07/08
+ * @since 1.0
  */
 public final class Clippin {
 
@@ -40,7 +40,11 @@ public final class Clippin {
     public static final int CENTER_LEFT_BOTTOM = 3;
     public static final int CENTER_RIGHT_BOTTOM = 4;
     public static final int CENTER_ORIGIN_BOTTOM = 5;
-    private static final int CENTER_NONE = -1;
+
+    public static final int DEFAULT_ANIMATION_MILLIS = 500;
+
+    @VisibleForTesting
+    static final int CENTER_NONE = -1;
 
     /**
      *　Call back when the animation is finished.
@@ -84,7 +88,7 @@ public final class Clippin {
 
         LollipopAnimator() {
             mCircleCenter = CENTER_NONE;
-            mDuration = 500;
+            mDuration = DEFAULT_ANIMATION_MILLIS;
             mStartDelay = 0;
         }
 
@@ -112,7 +116,7 @@ public final class Clippin {
         /** {@inheritDoc} */
         @Override
         public LollipopAnimator duration(int durationMillis) {
-            if (durationMillis < 0) {
+            if (durationMillis > 0) {
                 mDuration = durationMillis;
             }
             return this;
@@ -129,10 +133,8 @@ public final class Clippin {
 
         /** {@inheritDoc} */
         @Override
-        public ClippingAnimator interpolator(TimeInterpolator interpolator) {
-            if (interpolator != null) {
-                mInterpolator = interpolator;
-            }
+        public ClippingAnimator interpolator(@Nullable TimeInterpolator interpolator) {
+            mInterpolator = interpolator;
             return this;
         }
 
@@ -173,7 +175,8 @@ public final class Clippin {
             animator.start();
         }
 
-        private Animator makeAnimator(int startRadius, int endRadius) {
+        @VisibleForTesting
+        Animator makeAnimator(int startRadius, int endRadius) {
             final Point center = calculateCenterCoord();
             final Animator animator = createCircularReveal(mTargetView, center.x, center.y, startRadius, endRadius)
                                                 .setDuration(mDuration);
@@ -194,7 +197,8 @@ public final class Clippin {
             return MathUtils.calculateCenterCoord(mTargetView, mCircleCenter);
         }
 
-        private void validateNotNull() {
+        @VisibleForTesting
+        void validateNotNull() {
             if (mTargetView == null) {
                 throw new IllegalStateException("Calls the #target(View) method, you need to set the target view.");
             }
@@ -244,7 +248,7 @@ public final class Clippin {
 
         /** {@inheritDoc} */
         @Override
-        public ClippingAnimator interpolator(TimeInterpolator interpolator) {
+        public ClippingAnimator interpolator(@Nullable TimeInterpolator interpolator) {
             return this;
         }
 

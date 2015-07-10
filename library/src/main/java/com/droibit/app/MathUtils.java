@@ -16,7 +16,7 @@ import static com.droibit.app.Clippin.CENTER_RIGHT_TOP;
  * Class to calculate the numerical value for the ripple animation center View.
  *
  * @auther kumagai
- * @since 15/07/08
+ * @since 1.0
  */
 final class MathUtils {
 
@@ -37,12 +37,12 @@ final class MathUtils {
      * Calculate the coordinates of the center of  the animating circle center View.
      *
      * @param view view for the calculation
-     * @param from type of the center of circle
+     * @param center type of the center of circle
      * @return coordinate of the center of the animating circle
      */
-    public static Point calculateCenterCoord(View view, @Clippin.Center int from) {
+    public static Point calculateCenterCoord(View view, @Clippin.Center int center) {
         final Rect viewRect = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-        switch (from) {
+        switch (center) {
             case CENTER_ORIGIN:
                 return calculateOrigin(viewRect);
             case CENTER_ORIGIN_BOTTOM:
@@ -56,7 +56,7 @@ final class MathUtils {
             case CENTER_RIGHT_BOTTOM:
                 return calculateRightBottom(viewRect);
             default:
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException("The value of the argument is the type of center that is not defined.");
         }
     }
 
