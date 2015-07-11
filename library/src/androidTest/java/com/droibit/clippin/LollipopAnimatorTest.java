@@ -1,4 +1,4 @@
-package com.droibit.app;
+package com.droibit.clippin;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.droibit.app.utils.Views.makeView;
+import static com.droibit.clippin.utils.Views.makeView;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;

@@ -1,4 +1,4 @@
-package com.droibit.app;
+package com.droibit.clippin;
 
 import android.annotation.TargetApi;
 import android.os.Build;

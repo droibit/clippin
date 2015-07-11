@@ -1,4 +1,4 @@
-package com.droibit.app;
+package com.droibit.clippin;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -6,13 +6,11 @@ import android.support.test.runner.AndroidJUnit4;
 import android.test.InstrumentationTestCase;
 import android.view.View;
 
-import com.droibit.app.utils.Views;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.droibit.app.utils.Views.makeView;
+import static com.droibit.clippin.utils.Views.makeView;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 

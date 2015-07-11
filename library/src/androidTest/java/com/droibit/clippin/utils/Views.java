@@ -1,4 +1,4 @@
-package com.droibit.app.utils;
+package com.droibit.clippin.utils;
 
 import android.content.Context;
 import android.graphics.Rect;

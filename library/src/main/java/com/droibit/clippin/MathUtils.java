@@ -1,16 +1,16 @@
-package com.droibit.app;
+package com.droibit.clippin;
 
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.support.annotation.VisibleForTesting;
 import android.view.View;
 
-import static com.droibit.app.Clippin.CENTER_ORIGIN;
-import static com.droibit.app.Clippin.CENTER_ORIGIN_BOTTOM;
-import static com.droibit.app.Clippin.CENTER_LEFT_TOP;
-import static com.droibit.app.Clippin.CENTER_LEFT_BOTTOM;
-import static com.droibit.app.Clippin.CENTER_RIGHT_BOTTOM;
-import static com.droibit.app.Clippin.CENTER_RIGHT_TOP;
+import static com.droibit.clippin.Clippin.CENTER_ORIGIN;
+import static com.droibit.clippin.Clippin.CENTER_ORIGIN_BOTTOM;
+import static com.droibit.clippin.Clippin.CENTER_LEFT_TOP;
+import static com.droibit.clippin.Clippin.CENTER_LEFT_BOTTOM;
+import static com.droibit.clippin.Clippin.CENTER_RIGHT_BOTTOM;
+import static com.droibit.clippin.Clippin.CENTER_RIGHT_TOP;
 
 /**
  * Class to calculate the numerical value for the ripple animation center View.

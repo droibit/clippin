@@ -1,4 +1,4 @@
-package com.droibit.app;
+package com.droibit.clippin;
 
 import android.animation.Animator;
 import android.animation.TimeInterpolator;
@@ -15,7 +15,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static android.view.ViewAnimationUtils.createCircularReveal;
-import static com.droibit.app.MathUtils.calculateViewRadius;
+import static com.droibit.clippin.MathUtils.calculateViewRadius;
 
 /**
  * Class for easily and flexibly applies the Reveal Effect" to the view.<br>
