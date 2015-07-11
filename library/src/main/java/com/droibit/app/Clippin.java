@@ -18,12 +18,14 @@ import static android.view.ViewAnimationUtils.createCircularReveal;
 import static com.droibit.app.MathUtils.calculateViewRadius;
 
 /**
- * Class for easily and flexibly applies the Reveal Effect" to the view.
- *
+ * Class for easily and flexibly applies the Reveal Effect" to the view.<br>
+ * <br>
  * API 21 and more only apply the effect to the view. If it is less than API20,
  * {@link EmptyAnimator} is returned when you call. So, it is not necessary to be aware
- * of the version at runtime when used.
- *
+ * of the version at runtime when used.<br>
+ * <br>
+ * When the animation is finished after {@link ClippingAnimator#hide(Callback)},
+ * visibility of View will become GONE.<br>
  *
  * @auther kumagai
  * @since 1.0
@@ -212,13 +214,16 @@ public final class Clippin {
      * Empty {@link ClippingAnimator} to use and less API 19(4.4.x).<br>
      *
      * If {@link #show(Callback)} or {@link #hide(Callback)} method of argument of the callback is not null,
-     * AnimationEnd will be called.
+     * {@link Callback#onAnimationEnd()} will be called.
      */
     public static class EmptyAnimator implements ClippingAnimator {
+
+        View mTargetView;
 
         /** {@inheritDoc} */
         @Override
         public EmptyAnimator target(@NonNull View targetView) {
+            mTargetView = targetView;
             return this;
         }
 
@@ -255,6 +260,9 @@ public final class Clippin {
         /** {@inheritDoc} */
         @Override
         public void show(@Nullable Callback callback) {
+            validateNotNull();
+
+            mTargetView.setVisibility(View.VISIBLE);
             if (callback != null) {
                 callback.onAnimationEnd();
             }
@@ -263,8 +271,18 @@ public final class Clippin {
         /** {@inheritDoc} */
         @Override
         public void hide(@Nullable Callback callback) {
+            validateNotNull();
+
+            mTargetView.setVisibility(View.GONE);
             if (callback != null) {
                 callback.onAnimationEnd();
+            }
+        }
+
+        @VisibleForTesting
+        void validateNotNull() {
+            if (mTargetView == null) {
+                throw new IllegalStateException("Calls the #target(View) method, you need to set the target view.");
             }
         }
     }

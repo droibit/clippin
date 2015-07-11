@@ -51,10 +51,10 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         assertNotNull(animator.mTargetView);
         assertThat(animator.mTargetView, is(view));
 
-        final View nullView = null;
-        animator.target(nullView);
         // Force Error
-        animator.validateNotNull();
+        final View nullView = null;
+        animator.target(nullView)
+                .validateNotNull();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -71,9 +71,9 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         animator.circleCenter(Clippin.CENTER_RIGHT_TOP);
         assertThat(animator.mCircleCenter, is(Clippin.CENTER_RIGHT_TOP));
 
-        animator.circleCenter(Clippin.CENTER_NONE);
         // Force Error
-        animator.validateNotNull();
+        animator.circleCenter(Clippin.CENTER_NONE)
+                .validateNotNull();
     }
 
     @Test(expected = IllegalStateException.class)
@@ -93,12 +93,12 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         center = animator.calculateCenterCoord();
         assertThat(center, is(new Point(50, 50)));
 
+        // Force Error
         final View nullView = null;
         animator.circleCenter(nullView)
                 .circleCenter(Clippin.CENTER_NONE)
-                .target(makeView(mContext, 0, 0, 400, 500));
-        // Force Error
-        animator.validateNotNull();
+                .target(makeView(mContext, 0, 0, 400, 500))
+                .validateNotNull();
     }
 
     @Test
