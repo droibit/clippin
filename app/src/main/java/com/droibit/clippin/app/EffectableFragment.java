@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.droibit.app.Clippin;
-import com.droibit.app.ClippingAnimator;
+import com.droibit.clippin.Clippin;
+import com.droibit.clippin.ClippingAnimator;
 
 /**
  * @auther kumagai

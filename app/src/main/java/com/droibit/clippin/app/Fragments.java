@@ -3,7 +3,7 @@ package com.droibit.clippin.app;
 import android.graphics.Color;
 import android.support.v4.util.Pair;
 
-import com.droibit.app.Clippin;
+import com.droibit.clippin.Clippin;
 
 import java.util.Arrays;
 import java.util.List;
