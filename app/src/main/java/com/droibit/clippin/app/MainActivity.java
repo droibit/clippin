@@ -1,16 +1,21 @@
 package com.droibit.clippin.app;
 
+import android.graphics.Color;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.droibit.app.Clippin;
-
 public class MainActivity extends AppCompatActivity {
 
-    private View mContainerView;
+
+    private PagerAdapter mPagerAdapter;
+    private ViewPager mViewPager;
 
     /** {@inheritDoc} */
     @Override
@@ -18,7 +23,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mContainerView = findViewById(R.id.container);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        final TabLayout tabLayout = (TabLayout) findViewById(R.id.tab);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+
+        mViewPager.setAdapter(mPagerAdapter);
+        tabLayout.setupWithViewPager(mViewPager);
+        //mContainerView = findViewById(R.id.container);
     }
 
     /** {@inheritDoc} */
@@ -45,17 +59,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
-        // 初回はコンテナがGONEのためサイズが取れていない？
-        if (mContainerView.getVisibility() == View.GONE) {
-            Clippin.animate()
-                    .target(mContainerView)
-                    .circleCenter(v)
-                    .show(null);
-        } else {
-            Clippin.animate()
-                    .target(mContainerView)
-                    .circleCenter(v)
-                    .hide(null);
+        final EffectableFragment fragment = getCurrentFragment();
+        if (fragment != null) {
+            fragment.onClick(v);
         }
+    }
+
+    private EffectableFragment getCurrentFragment() {
+        final Fragment page = getSupportFragmentManager().findFragmentByTag(
+                "android:switcher:" + R.id.viewpager + ":" + mViewPager.getCurrentItem());
+        return ((EffectableFragment) page);
     }
 }
