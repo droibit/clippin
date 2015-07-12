@@ -64,7 +64,7 @@ public class EffectableFragment extends Fragment {
         final ClippingAnimator animator = Clippin.animate()
                                                  .target(mOverlay)
                                                  .duration(400);
-        if (mCenterType <= Clippin.CENTER_RIGHT_BOTTOM) {
+        if (mCenterType <= Clippin.CENTER_ORIGIN_BOTTOM) {
             animator.circleCenter(mCenterType);
         } else {
             animator.circleCenter(v);
