@@ -87,8 +87,9 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
     @Test(expected = IllegalStateException.class)
     public void testSetCircleCenterView() throws Exception {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
-        final View centerView = makeView(mContext, 0, 0, 100, 100);
+        animator.target(makeView(mContext, 0, 0, 200, 200));
 
+        final View centerView = makeView(mContext, 0, 0, 100, 100);
         animator.circleCenter(centerView);
         assertNotNull(animator.mCircleCenterView);
         assertThat(animator.mCircleCenterView, is(centerView));
@@ -98,20 +99,19 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         assertThat(center1, is(new Point(50, 50)));
         // Calculate circle radius
         final float radius1 = animator.calculateCircleRadius();
-        assertThat(radius1, is(100f));
+        assertThat(radius1, is(200f));
 
         // Prefer view (circle center and radius)
         animator.circleCenter(Clippin.CENTER_LEFT_TOP);
         final Point center2 = animator.calculateCenterCoord();
         assertThat(center2, is(new Point(50, 50)));
         final float radius2 = animator.calculateCircleRadius();
-        assertThat(radius2, is(100f));
+        assertThat(radius2, is(200f));
 
         // Force Error
         final View nullView = null;
         animator.circleCenter(nullView)
                 .circleCenter(Clippin.CENTER_NONE)
-                .target(makeView(mContext, 0, 0, 400, 500))
                 .validateNotNull();
     }
 

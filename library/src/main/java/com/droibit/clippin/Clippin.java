@@ -204,8 +204,9 @@ public final class Clippin {
 
         @VisibleForTesting
         float calculateCircleRadius() {
+            // FIXME
             if (mCircleCenterView != null) {
-                return MathUtils.calculateCircleRadius(mCircleCenterView, false);
+                return MathUtils.calculateCircleRadius(mTargetView, false);
             }
 
             final boolean useHypot = mCircleCenter == CENTER_LEFT_TOP    ||
