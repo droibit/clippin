@@ -61,15 +61,23 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
     public void testSetCircleCenter() throws Exception {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
 
-        animator.target(makeView(mContext, 0, 0, 400, 400))
+        animator.target(makeView(mContext, 0, 0, 572, 315))
                 .circleCenter(Clippin.CENTER_ORIGIN);
         assertThat(animator.mCircleCenter, is(Clippin.CENTER_ORIGIN));
 
-        final Point center = animator.calculateCenterCoord();
-        assertThat(center, is(new Point(200, 200)));
+        // Calculate center coordinate
+        final Point centerOrigin = animator.calculateCenterCoord();
+        assertThat(centerOrigin, is(new Point(286, 157)));
 
+        // Change circle center and calculate center coordinate
         animator.circleCenter(Clippin.CENTER_RIGHT_TOP);
         assertThat(animator.mCircleCenter, is(Clippin.CENTER_RIGHT_TOP));
+        final Point centerRightTop = animator.calculateCenterCoord();
+        assertThat(centerRightTop, is(new Point(572, 0)));
+
+        // calculate circle radius (center is right top)
+        final float radius = animator.calculateCircleRadius();
+        assertThat(radius, is(653f));
 
         // Force Error
         animator.circleCenter(Clippin.CENTER_NONE)
@@ -79,19 +87,25 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
     @Test(expected = IllegalStateException.class)
     public void testSetCircleCenterView() throws Exception {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
-
         final View centerView = makeView(mContext, 0, 0, 100, 100);
+
         animator.circleCenter(centerView);
         assertNotNull(animator.mCircleCenterView);
         assertThat(animator.mCircleCenterView, is(centerView));
 
-        Point center = animator.calculateCenterCoord();
-        assertThat(center, is(new Point(50, 50)));
+        // Calculate center coordinate
+        final Point center1 = animator.calculateCenterCoord();
+        assertThat(center1, is(new Point(50, 50)));
+        // Calculate circle radius
+        final float radius1 = animator.calculateCircleRadius();
+        assertThat(radius1, is(100f));
 
-        // Prefer view
+        // Prefer view (circle center and radius)
         animator.circleCenter(Clippin.CENTER_LEFT_TOP);
-        center = animator.calculateCenterCoord();
-        assertThat(center, is(new Point(50, 50)));
+        final Point center2 = animator.calculateCenterCoord();
+        assertThat(center2, is(new Point(50, 50)));
+        final float radius2 = animator.calculateCircleRadius();
+        assertThat(radius2, is(100f));
 
         // Force Error
         final View nullView = null;

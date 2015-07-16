@@ -60,14 +60,25 @@ public class MathUtilsTest extends InstrumentationTestCase {
 
     // Calc view radius
     @Test
-    public void testCalculateViewRadius() throws Exception {
+    public void testCalculateCircleRadiusDoNotUseHypot() throws Exception {
         final View longHeightView = makeView(mContext, 0, 0, 100, 200);
-        final int hRadius = MathUtils.calculateViewRadius(longHeightView);
-        assertThat(hRadius, is(200));
+        final float hRadius = MathUtils.calculateCircleRadius(longHeightView, false);
+        assertThat(hRadius, is(200f));
 
         final View longWidthView = makeView(mContext, 0, 0, 300, 100);
-        final int wRadius = MathUtils.calculateViewRadius(longWidthView);
-        assertThat(wRadius, is(300));
+        final float wRadius = MathUtils.calculateCircleRadius(longWidthView, false);
+        assertThat(wRadius, is(300f));
+    }
+
+    @Test
+    public void testCalculateCircleRadiusUseHypot() {
+        final View longHeightView = makeView(mContext, 0, 0, 9, 40);
+        final float hRadius = MathUtils.calculateCircleRadius(longHeightView, true);
+        assertThat(hRadius, is(41f));
+
+        final View longWidthView = makeView(mContext, 0, 0, 72, 65);
+        final float wRadius = MathUtils.calculateCircleRadius(longWidthView, true);
+        assertThat(wRadius, is(97f));
     }
 
     // Calc origin

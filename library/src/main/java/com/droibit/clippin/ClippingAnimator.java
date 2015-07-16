@@ -62,7 +62,8 @@ public interface ClippingAnimator {
     ClippingAnimator interpolator(@Nullable TimeInterpolator interpolator);
 
     /**
-     * Start the animation circle spreads.
+     * Start the animation circle spreads.<br/>
+     * Callback is executed on the UI thread.
      *
      * @param callback called when the animation is finished
      */
@@ -70,7 +71,9 @@ public interface ClippingAnimator {
 
     /**
      * Start the animation circle narrows.
-     * When the animation is finished, the visibility of this view is to become GONE.
+     * When the animation is finished, the visibility of this view is to become GONE.<br/>
+     *
+     * Callback is executed on the UI thread.
      *
      * @param callback called when the animation is finished
      */

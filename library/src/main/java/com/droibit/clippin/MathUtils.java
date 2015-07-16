@@ -27,9 +27,13 @@ final class MathUtils {
      * Calculate the radius of the animating circle center View.
      *
      * @param view view for the calculation
+     * @param useHypot
      * @return radius of the animating circle
      */
-    public static int calculateViewRadius(View view) {
+    public static float calculateCircleRadius(View view, boolean useHypot) {
+        if (useHypot) {
+            return (float) Math.hypot(view.getWidth(), view.getHeight());
+        }
         return Math.max(view.getWidth(), view.getHeight());
     }
 

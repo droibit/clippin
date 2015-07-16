@@ -5,6 +5,7 @@ import android.animation.TimeInterpolator;
 import android.annotation.TargetApi;
 import android.graphics.Point;
 import android.os.Build;
+import android.os.Looper;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,7 +16,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static android.view.ViewAnimationUtils.createCircularReveal;
-import static com.droibit.clippin.MathUtils.calculateViewRadius;
 
 /**
  * Class for easily and flexibly applies the Reveal Effect" to the view.<br>
@@ -145,7 +145,7 @@ public final class Clippin {
         public void show(@Nullable final Callback callback) {
             validateNotNull();
 
-            final Animator animator = makeAnimator(0, calculateViewRadius(mTargetView));
+            final Animator animator = makeAnimator(0, calculateCircleRadius());
             mTargetView.setVisibility(View.VISIBLE);
 
             if (callback != null) {
@@ -164,9 +164,10 @@ public final class Clippin {
         public void hide(@Nullable final Callback callback) {
             validateNotNull();
 
-            final Animator animator = makeAnimator(calculateViewRadius(mTargetView), 0);
+            final Animator animator = makeAnimator(calculateCircleRadius(), 0);
             animator.addListener(new AnimatorListener() {
-                @Override public void onAnimationEnd(@NonNull Animator animation) {
+                @Override
+                public void onAnimationEnd(@NonNull Animator animation) {
                     mTargetView.setVisibility(View.GONE);
                     if (callback != null) {
                         callback.onAnimationEnd();
@@ -178,7 +179,7 @@ public final class Clippin {
         }
 
         @VisibleForTesting
-        Animator makeAnimator(int startRadius, int endRadius) {
+        Animator makeAnimator(float startRadius, float endRadius) {
             final Point center = calculateCenterCoord();
             final Animator animator = createCircularReveal(mTargetView, center.x, center.y, startRadius, endRadius)
                                                 .setDuration(mDuration);
@@ -197,6 +198,19 @@ public final class Clippin {
                 return MathUtils.calculateCenterCoord(mCircleCenterView, CENTER_ORIGIN);
             }
             return MathUtils.calculateCenterCoord(mTargetView, mCircleCenter);
+        }
+
+        @VisibleForTesting
+        float calculateCircleRadius() {
+            if (mCircleCenterView != null) {
+                return MathUtils.calculateCircleRadius(mCircleCenterView, false);
+            }
+
+            final boolean useHypot = mCircleCenter == CENTER_LEFT_TOP    ||
+                                     mCircleCenter == CENTER_RIGHT_TOP   ||
+                                     mCircleCenter == CENTER_LEFT_BOTTOM ||
+                                     mCircleCenter == CENTER_RIGHT_BOTTOM;
+            return MathUtils.calculateCircleRadius(mTargetView, useHypot);
         }
 
         @VisibleForTesting
@@ -263,9 +277,7 @@ public final class Clippin {
             validateNotNull();
 
             mTargetView.setVisibility(View.VISIBLE);
-            if (callback != null) {
-                callback.onAnimationEnd();
-            }
+            callOnUI(callback);
         }
 
         /** {@inheritDoc} */
@@ -274,9 +286,7 @@ public final class Clippin {
             validateNotNull();
 
             mTargetView.setVisibility(View.GONE);
-            if (callback != null) {
-                callback.onAnimationEnd();
-            }
+            callOnUI(callback);
         }
 
         @VisibleForTesting
@@ -284,6 +294,23 @@ public final class Clippin {
             if (mTargetView == null) {
                 throw new IllegalStateException("Calls the #target(View) method, you need to set the target view.");
             }
+        }
+
+        private void callOnUI(@Nullable final Callback callback) {
+            if (callback == null) {
+                return;
+            }
+
+            // If it is not the UI thread
+            if (Looper.myLooper() != Looper.getMainLooper()) {
+                mTargetView.post(new Runnable() {
+                    @Override public void run() {
+                        callback.onAnimationEnd();
+                    }
+                });
+                return;
+            }
+            callback.onAnimationEnd();
         }
     }
 
