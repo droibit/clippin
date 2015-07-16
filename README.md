@@ -45,7 +45,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.droibit:clippin:1.0.1'
+    compile 'com.github.droibit:clippin:1.0.2'
 }
 ```
 
