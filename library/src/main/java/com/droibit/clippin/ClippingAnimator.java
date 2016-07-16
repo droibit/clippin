@@ -12,7 +12,6 @@ import android.view.View;
  * it will throw an {@link IllegalStateException} at run time.
  *
  * @auther kumagai
- * @since 1.0
  */
 public interface ClippingAnimator {
 

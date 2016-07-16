@@ -6,7 +6,7 @@ import android.view.View;
 
 
 /**
- * Created by kumagai on 2015/07/10.
+ * @author kumagai
  */
 public final class Views {
 

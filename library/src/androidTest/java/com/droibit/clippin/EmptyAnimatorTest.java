@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
  * Unit test of {@link Clippin.EmptyAnimator} class.
  *
  * @author kumagai
- * @since 1.0
  */
 @RunWith(AndroidJUnit4.class)
 public class EmptyAnimatorTest extends InstrumentationTestCase {

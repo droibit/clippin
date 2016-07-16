@@ -20,7 +20,6 @@ import static org.junit.Assert.assertThat;
  * Unit test of {@link MathUtils} class.
  *
  * @author kumagai
- * @since 1.0
  */
 @RunWith(AndroidJUnit4.class)
 public class MathUtilsTest extends InstrumentationTestCase {

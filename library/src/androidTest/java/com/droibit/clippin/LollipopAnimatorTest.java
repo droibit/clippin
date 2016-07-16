@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThat;
  * Unit test of {@link Clippin.LollipopAnimator} class.
  *
  * @author kumagai
- * @since 1.0
  */
 @RunWith(AndroidJUnit4.class)
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)

@@ -16,7 +16,6 @@ import static com.droibit.clippin.Clippin.CENTER_RIGHT_TOP;
  * Class to calculate the numerical value for the ripple animation center View.
  *
  * @auther kumagai
- * @since 1.0
  */
 final class MathUtils {
 

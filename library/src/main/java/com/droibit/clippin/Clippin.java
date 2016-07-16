@@ -29,7 +29,6 @@ import static android.view.ViewAnimationUtils.createCircularReveal;
  * visibility of View will become GONE.<br>
  *
  * @auther kumagai
- * @since 1.0
  */
 public final class Clippin {
 
