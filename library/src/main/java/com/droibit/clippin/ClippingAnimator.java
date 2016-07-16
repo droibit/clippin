@@ -43,7 +43,7 @@ public interface ClippingAnimator {
      *
      * @param durationMillis duration milliseconds
      */
-    ClippingAnimator duration(int durationMillis);
+    ClippingAnimator duration(long durationMillis);
 
     /**
      * Set the delay time of the animation start.<br/>
@@ -51,7 +51,7 @@ public interface ClippingAnimator {
      *
      * @param delayMillis delay milliseconds
      */
-    ClippingAnimator startDelay(int delayMillis);
+    ClippingAnimator startDelay(long delayMillis);
 
     /**
      * Set the interpolator for the animator.

@@ -43,7 +43,7 @@ public final class Clippin {
     public static final int CENTER_RIGHT_BOTTOM = 4;
     public static final int CENTER_ORIGIN_BOTTOM = 5;
 
-    public static final int DEFAULT_ANIMATION_MILLIS = 500;
+    public static final long DEFAULT_ANIMATION_MILLIS = 500L;
 
     @VisibleForTesting
     static final int CENTER_NONE = -1;
@@ -81,55 +81,55 @@ public final class Clippin {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static final class LollipopAnimator implements ClippingAnimator {
 
-        View mTargetView;
-        View mCircleCenterView;
+        View targetView;
+        View circleCenterView;
         @Center
-        int mCircleCenter;
-        int mDuration;
-        int mStartDelay;
-        TimeInterpolator mInterpolator;
+        int circleCenter;
+        long duration;
+        long startDelay;
+        TimeInterpolator interpolator;
 
         LollipopAnimator() {
-            mCircleCenter = CENTER_NONE;
-            mDuration = DEFAULT_ANIMATION_MILLIS;
-            mStartDelay = 0;
+            circleCenter = CENTER_NONE;
+            duration = DEFAULT_ANIMATION_MILLIS;
+            startDelay = 0L;
         }
 
         /** {@inheritDoc} */
         @Override
         public LollipopAnimator target(@NonNull View targetView) {
-            mTargetView = targetView;
+            this.targetView = targetView;
             return this;
         }
 
         /** {@inheritDoc} */
         @Override
         public LollipopAnimator circleCenter(@Center int center) {
-            mCircleCenter = center;
+            circleCenter = center;
             return this;
         }
 
         /** {@inheritDoc} */
         @Override
         public LollipopAnimator circleCenter(@NonNull View centerView) {
-            mCircleCenterView = centerView;
+            circleCenterView = centerView;
             return this;
         }
 
         /** {@inheritDoc} */
         @Override
-        public LollipopAnimator duration(int durationMillis) {
-            if (durationMillis > 0) {
-                mDuration = durationMillis;
+        public LollipopAnimator duration(long durationMillis) {
+            if (durationMillis > 0L) {
+                duration = durationMillis;
             }
             return this;
         }
 
         /** {@inheritDoc} */
         @Override
-        public LollipopAnimator startDelay(int delayMillis) {
-            if (delayMillis > 0) {
-                mStartDelay = delayMillis;
+        public LollipopAnimator startDelay(long delayMillis) {
+            if (delayMillis > 0L) {
+                startDelay = delayMillis;
             }
             return this;
         }
@@ -137,7 +137,7 @@ public final class Clippin {
         /** {@inheritDoc} */
         @Override
         public ClippingAnimator interpolator(@Nullable TimeInterpolator interpolator) {
-            mInterpolator = interpolator;
+            this.interpolator = interpolator;
             return this;
         }
 
@@ -147,7 +147,7 @@ public final class Clippin {
             validateNotNull();
 
             final Animator animator = makeAnimator(0, calculateCircleRadius());
-            mTargetView.setVisibility(View.VISIBLE);
+            targetView.setVisibility(View.VISIBLE);
 
             if (callback != null) {
                 animator.addListener(new AnimatorListener() {
@@ -169,7 +169,7 @@ public final class Clippin {
             animator.addListener(new AnimatorListener() {
                 @Override
                 public void onAnimationEnd(@NonNull Animator animation) {
-                    mTargetView.setVisibility(View.GONE);
+                    targetView.setVisibility(View.GONE);
                     if (callback != null) {
                         callback.onAnimationEnd();
                     }
@@ -181,46 +181,46 @@ public final class Clippin {
 
         @VisibleForTesting
         Animator makeAnimator(float startRadius, float endRadius) {
-            final Point center = calculateCenterCoord();
-            final Animator animator = createCircularReveal(mTargetView, center.x, center.y, startRadius, endRadius)
-                                                .setDuration(mDuration);
-            if (mStartDelay > 0) {
-                animator.setStartDelay(mStartDelay);
+            final Point center = calculateCenterCoordinate();
+            final Animator animator = createCircularReveal(targetView, center.x, center.y, startRadius, endRadius)
+                                                .setDuration(duration);
+            if (startDelay > 0) {
+                animator.setStartDelay(startDelay);
             }
-            if (mInterpolator != null) {
-                animator.setInterpolator(mInterpolator);
+            if (interpolator != null) {
+                animator.setInterpolator(interpolator);
             }
             return animator;
         }
 
         @VisibleForTesting
-        Point calculateCenterCoord() {
-            if (mCircleCenterView != null) {
-                return MathUtils.calculateCenterCoord(mCircleCenterView, CENTER_ORIGIN);
+        Point calculateCenterCoordinate() {
+            if (circleCenterView != null) {
+                return MathUtils.calculateCenterCoord(circleCenterView, CENTER_ORIGIN);
             }
-            return MathUtils.calculateCenterCoord(mTargetView, mCircleCenter);
+            return MathUtils.calculateCenterCoord(targetView, circleCenter);
         }
 
         @VisibleForTesting
         float calculateCircleRadius() {
             // FIXME
-            if (mCircleCenterView != null) {
-                return MathUtils.calculateCircleRadius(mTargetView, false);
+            if (circleCenterView != null) {
+                return MathUtils.calculateCircleRadius(targetView, false);
             }
 
-            final boolean useHypot = mCircleCenter == CENTER_LEFT_TOP    ||
-                                     mCircleCenter == CENTER_RIGHT_TOP   ||
-                                     mCircleCenter == CENTER_LEFT_BOTTOM ||
-                                     mCircleCenter == CENTER_RIGHT_BOTTOM;
-            return MathUtils.calculateCircleRadius(mTargetView, useHypot);
+            final boolean useHypot = circleCenter == CENTER_LEFT_TOP    ||
+                                     circleCenter == CENTER_RIGHT_TOP   ||
+                                     circleCenter == CENTER_LEFT_BOTTOM ||
+                                     circleCenter == CENTER_RIGHT_BOTTOM;
+            return MathUtils.calculateCircleRadius(targetView, useHypot);
         }
 
         @VisibleForTesting
         void validateNotNull() {
-            if (mTargetView == null) {
+            if (targetView == null) {
                 throw new IllegalStateException("Calls the #target(View) method, you need to set the target view.");
             }
-            if (mCircleCenterView == null && mCircleCenter == CENTER_NONE) {
+            if (circleCenterView == null && circleCenter == CENTER_NONE) {
                 throw new IllegalStateException("Center coordinates of the circle animation is not set.");
             }
         }
@@ -234,12 +234,12 @@ public final class Clippin {
      */
     public static class EmptyAnimator implements ClippingAnimator {
 
-        View mTargetView;
+        View targetView;
 
         /** {@inheritDoc} */
         @Override
         public EmptyAnimator target(@NonNull View targetView) {
-            mTargetView = targetView;
+            this.targetView = targetView;
             return this;
         }
 
@@ -257,13 +257,13 @@ public final class Clippin {
 
         /** {@inheritDoc} */
         @Override
-        public EmptyAnimator duration(int durationMillis) {
+        public EmptyAnimator duration(long durationMillis) {
             return this;
         }
 
         /** {@inheritDoc} */
         @Override
-        public EmptyAnimator startDelay(int delayMillis) {
+        public EmptyAnimator startDelay(long delayMillis) {
             return this;
         }
 
@@ -278,7 +278,7 @@ public final class Clippin {
         public void show(@Nullable Callback callback) {
             validateNotNull();
 
-            mTargetView.setVisibility(View.VISIBLE);
+            targetView.setVisibility(View.VISIBLE);
             callOnUI(callback);
         }
 
@@ -287,13 +287,13 @@ public final class Clippin {
         public void hide(@Nullable Callback callback) {
             validateNotNull();
 
-            mTargetView.setVisibility(View.GONE);
+            targetView.setVisibility(View.GONE);
             callOnUI(callback);
         }
 
         @VisibleForTesting
         void validateNotNull() {
-            if (mTargetView == null) {
+            if (targetView == null) {
                 throw new IllegalStateException("Calls the #target(View) method, you need to set the target view.");
             }
         }
@@ -305,7 +305,7 @@ public final class Clippin {
 
             // If it is not the UI thread
             if (Looper.myLooper() != Looper.getMainLooper()) {
-                mTargetView.post(new Runnable() {
+                targetView.post(new Runnable() {
                     @Override public void run() {
                         callback.onAnimationEnd();
                     }

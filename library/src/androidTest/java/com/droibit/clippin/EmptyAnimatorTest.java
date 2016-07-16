@@ -42,7 +42,7 @@ public class EmptyAnimatorTest extends InstrumentationTestCase {
                 assertTrue(true);
             }
         });
-        assertThat(animator.mTargetView.getVisibility(), is(View.VISIBLE));
+        assertThat(animator.targetView.getVisibility(), is(View.VISIBLE));
 
         // Force Error
         final View nullView = null;
@@ -59,7 +59,7 @@ public class EmptyAnimatorTest extends InstrumentationTestCase {
                 assertTrue(true);
             }
         });
-        assertThat(animator.mTargetView.getVisibility(), is(View.GONE));
+        assertThat(animator.targetView.getVisibility(), is(View.GONE));
 
         // Force Error
         final View nullView = null;

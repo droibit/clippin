@@ -47,8 +47,8 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
 
         animator.target(view);
-        assertNotNull(animator.mTargetView);
-        assertThat(animator.mTargetView, is(view));
+        assertNotNull(animator.targetView);
+        assertThat(animator.targetView, is(view));
 
         // Force Error
         final View nullView = null;
@@ -62,16 +62,16 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
 
         animator.target(makeView(mContext, 0, 0, 572, 315))
                 .circleCenter(Clippin.CENTER_ORIGIN);
-        assertThat(animator.mCircleCenter, is(Clippin.CENTER_ORIGIN));
+        assertThat(animator.circleCenter, is(Clippin.CENTER_ORIGIN));
 
         // Calculate center coordinate
-        final Point centerOrigin = animator.calculateCenterCoord();
+        final Point centerOrigin = animator.calculateCenterCoordinate();
         assertThat(centerOrigin, is(new Point(286, 157)));
 
         // Change circle center and calculate center coordinate
         animator.circleCenter(Clippin.CENTER_RIGHT_TOP);
-        assertThat(animator.mCircleCenter, is(Clippin.CENTER_RIGHT_TOP));
-        final Point centerRightTop = animator.calculateCenterCoord();
+        assertThat(animator.circleCenter, is(Clippin.CENTER_RIGHT_TOP));
+        final Point centerRightTop = animator.calculateCenterCoordinate();
         assertThat(centerRightTop, is(new Point(572, 0)));
 
         // calculate circle radius (center is right top)
@@ -90,11 +90,11 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
 
         final View centerView = makeView(mContext, 0, 0, 100, 100);
         animator.circleCenter(centerView);
-        assertNotNull(animator.mCircleCenterView);
-        assertThat(animator.mCircleCenterView, is(centerView));
+        assertNotNull(animator.circleCenterView);
+        assertThat(animator.circleCenterView, is(centerView));
 
         // Calculate center coordinate
-        final Point center1 = animator.calculateCenterCoord();
+        final Point center1 = animator.calculateCenterCoordinate();
         assertThat(center1, is(new Point(50, 50)));
         // Calculate circle radius
         final float radius1 = animator.calculateCircleRadius();
@@ -102,7 +102,7 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
 
         // Prefer view (circle center and radius)
         animator.circleCenter(Clippin.CENTER_LEFT_TOP);
-        final Point center2 = animator.calculateCenterCoord();
+        final Point center2 = animator.calculateCenterCoordinate();
         assertThat(center2, is(new Point(50, 50)));
         final float radius2 = animator.calculateCircleRadius();
         assertThat(radius2, is(200f));
@@ -119,13 +119,13 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
 
         animator.duration(1000);
-        assertThat(animator.mDuration, is(1000));
+        assertThat(animator.duration, is(1000L));
 
         // Less than 0 is not accepted
         final Clippin.LollipopAnimator defaultAnimator = (Clippin.LollipopAnimator) Clippin.animate();
         defaultAnimator.duration(-1);
-        assertThat(defaultAnimator.mDuration, not(-1));
-        assertThat(defaultAnimator.mDuration, is(Clippin.DEFAULT_ANIMATION_MILLIS));
+        assertThat(defaultAnimator.duration, not(-1L));
+        assertThat(defaultAnimator.duration, is(Clippin.DEFAULT_ANIMATION_MILLIS));
     }
 
     @Test
@@ -133,13 +133,13 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
 
         animator.startDelay(50);
-        assertThat(animator.mStartDelay, is(50));
+        assertThat(animator.startDelay, is(50L));
 
         // Less than 0 is not accepted
         final Clippin.LollipopAnimator defaultAnimator = (Clippin.LollipopAnimator) Clippin.animate();
         defaultAnimator.startDelay(-1);
-        assertThat(defaultAnimator.mStartDelay, not(-1));
-        assertThat(defaultAnimator.mStartDelay, is(0));
+        assertThat(defaultAnimator.startDelay, not(-1L));
+        assertThat(defaultAnimator.startDelay, is(0L));
     }
 
     @Test
@@ -147,11 +147,11 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
         final Clippin.LollipopAnimator animator = (Clippin.LollipopAnimator) Clippin.animate();
 
         animator.interpolator(new AccelerateDecelerateInterpolator());
-        assertThat(animator.mInterpolator, instanceOf(AccelerateDecelerateInterpolator.class));
+        assertThat(animator.interpolator, instanceOf(AccelerateDecelerateInterpolator.class));
 
         // Allow null
         animator.interpolator(null);
-        assertNull(animator.mInterpolator);
+        assertNull(animator.interpolator);
     }
 
     @Test
@@ -164,13 +164,13 @@ public class LollipopAnimatorTest extends InstrumentationTestCase {
                 .startDelay(10)
                 .interpolator(new AccelerateInterpolator());
 
-        assertThat(animator.mTargetView, is(targetView));
-        assertThat(animator.mDuration, is(250));
-        assertThat(animator.mStartDelay, is(10));
-        assertThat(animator.mInterpolator, instanceOf(AccelerateInterpolator.class));
+        assertThat(animator.targetView, is(targetView));
+        assertThat(animator.duration, is(250L));
+        assertThat(animator.startDelay, is(10L));
+        assertThat(animator.interpolator, instanceOf(AccelerateInterpolator.class));
 
         animator.validateNotNull();
-        final Point center = animator.calculateCenterCoord();
+        final Point center = animator.calculateCenterCoordinate();
         assertThat(center, is(new Point(250, 250)));
     }
 }
